@@ -98,23 +98,39 @@ RSpec.describe CoursesController do
   end
 
   describe "PUT update" do
-    it "assigns @course" do
-      course = create(:course)
-      put :update , params: {id: course.id, course: {title: "Title", description: "Description"}}
-      expect(assigns[:course]).to eq(course)
+    context "when course has title" do
+      it "assigns @course" do
+        course = create(:course)
+        put :update , params: {id: course.id, course: {title: "Title", description: "Description"}}
+        expect(assigns[:course]).to eq(course)
+      end
+
+      it "changes value" do
+        course = create(:course)
+        put :update , params: {id: course.id, course: {title: "Title", description: "Description"}}
+        expect(assigns[:course].title).to eq("Title")
+        expect(assigns[:course].description).to eq("Description")
+      end
+
+      it "redirects to course_path" do
+        course = create(:course)
+        put :update , params: {id: course.id, course: {title: "Title", description: "Description"}}
+        expect(response).to redirect_to course_path(course)
+      end
     end
 
-    it "changes value" do
-      course = create(:course)
-      put :update , params: {id: course.id, course: {title: "Title", description: "Description"}}
-      expect(assigns[:course].title).to eq("Title")
-      expect(assigns[:course].description).to eq("Description")
-    end
+    context "when course doesn't have title" do
+      it "doesn't update a record" do
+        course = create(:course)
+        put :update, params: {id: course.id, course: {title: "", description: "Description"}}
+        expect(course.description).not_to eq("Description")
+      end
 
-    it "redirects to course_path" do
-      course = create(:course)
-      put :update , params: {id: course.id, course: {title: "Title", description: "Description"}}
-      expect(response).to redirect_to course_path(course)
+      it "renders edit template" do
+        course = create(:course)
+        put :update, params: { id: course.id, course: {title: "", description: "Description"}}
+        expect(response).to render_template("edit")
+      end
     end
   end
 end
