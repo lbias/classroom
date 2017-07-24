@@ -97,4 +97,24 @@ RSpec.describe CoursesController do
     end
   end
 
+  describe "PUT update" do
+    it "assigns @course" do
+      course = create(:course)
+      put :update , params: {id: course.id, course: {title: "Title", description: "Description"}}
+      expect(assigns[:course]).to eq(course)
+    end
+
+    it "changes value" do
+      course = create(:course)
+      put :update , params: {id: course.id, course: {title: "Title", description: "Description"}}
+      expect(assigns[:course].title).to eq("Title")
+      expect(assigns[:course].description).to eq("Description")
+    end
+
+    it "redirects to course_path" do
+      course = create(:course)
+      put :update , params: {id: course.id, course: {title: "Title", description: "Description"}}
+      expect(response).to redirect_to course_path(course)
+    end
+  end
 end
