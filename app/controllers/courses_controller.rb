@@ -1,4 +1,5 @@
 class CoursesController < ApplicationController
+  before_action :authenticate_user!, only: [:new]
   def index
     @courses = Course.all
   end
@@ -38,7 +39,7 @@ class CoursesController < ApplicationController
     @course.destroy
     redirect_to courses_path
   end
-  
+
   private
   def course_params
     params.require(:course).permit(:title, :description)
