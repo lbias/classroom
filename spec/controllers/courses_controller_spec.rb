@@ -138,6 +138,9 @@ RSpec.describe CoursesController do
   end
 
   describe "PUT update" do
+    let(:user) {create(:user)}
+    before {sign_in user}
+    
     context "when course has title" do
       it "assigns @course" do
         course = create(:course)
