@@ -106,6 +106,9 @@ RSpec.describe CoursesController do
   end
 
   describe "GET edit" do
+    let(:user) {create(:user)}
+    before {sign_in user}
+
     it "assign course" do
       course = create(:course)
       get :edit, params: { id: course.id }
