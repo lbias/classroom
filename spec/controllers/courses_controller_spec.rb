@@ -193,6 +193,9 @@ RSpec.describe CoursesController do
   end
 
   describe "DELETE destroy" do
+    let(:user) {create(:user)}
+    before {sign_in user}
+
     it "assigns @course" do
       course = create(:course)
       delete :destroy, params: { id: course.id }
