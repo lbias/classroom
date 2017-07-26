@@ -106,19 +106,34 @@ RSpec.describe CoursesController do
   end
 
   describe "GET edit" do
-    let(:user) {create(:user)}
-    before {sign_in user}
+    let(:author) {create(:user)}
+    let(:not_author) {create(:user)}
 
-    it "assign course" do
-      course = create(:course)
-      get :edit, params: { id: course.id }
-      expect(assigns[:course]).to eq(course)
+    context "signed in as author" do
+      before {sign_in author}
+
+      it "assigns course" do
+        course = create(:course, user: author)
+        get :edit, params: {:id => course.id }
+        expect(assigns[:course]).to eq(course)
+      end
+
+      it "render template" do
+        course = create(:course, user: author)
+        get :edit, params: {:id => course.id }
+        expect(response).to render_template("edit")
+      end
     end
 
-    it "render template" do
-      course = create(:course)
-      get :edit, params: { id: course.id }
-      expect(response).to render_template("edit")
+    context "signed in not as author" do
+      before {sign_in not_author}
+
+      it "raises an error" do
+        course = create(:course, user: author)
+        expect do
+          get :edit, params: {:id => course.id}
+        end.to raise_error ActiveRecord::RecordNotFound
+      end
     end
   end
 
