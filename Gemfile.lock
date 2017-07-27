@@ -75,6 +75,7 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
+    database_rewinder (0.8.2)
     devise (4.3.0)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -90,6 +91,10 @@ GEM
       factory_girl (~> 4.8.0)
       railties (>= 3.0.0)
     ffi (1.9.18)
+    formulaic (0.4.0)
+      activesupport
+      capybara
+      i18n
     globalid (0.4.0)
       activesupport (>= 4.2.0)
     i18n (0.8.6)
@@ -228,8 +233,10 @@ DEPENDENCIES
   byebug
   capybara (~> 2.13)
   coffee-rails (~> 4.2)
+  database_rewinder
   devise
   factory_girl_rails
+  formulaic
   jbuilder (~> 2.5)
   jquery-rails
   puma (~> 3.7)
